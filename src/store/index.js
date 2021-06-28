@@ -13,7 +13,7 @@ export default createStore({
       state.data = value
     },
     remove(state, val) {
-      state.data = state.data.filter(e => e.id === val)
+      state.data = state.data.filter(e => e.id !== val)
       window.localStorage.setItem('data', JSON.stringify(state.data))
     }
   },
