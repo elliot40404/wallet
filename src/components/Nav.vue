@@ -2,9 +2,9 @@
   <div>
     <nav>
       <ul>
-        <li><router-link :to="{ path: '/details', query: { id: 'income' }}">INCOME</router-link></li>
+        <li><router-link to="/income">INCOME</router-link></li>
         <li @click="nav" class="add">+</li>
-        <li><router-link :to="{ path: '/details', query: { id: 'expense' }}">EXPENSE</router-link></li>
+        <li><router-link to="/expense">EXPENSE</router-link></li>
       </ul>
     </nav>
   </div>
@@ -64,6 +64,7 @@ ul {
     font-weight: 300;
     box-shadow: 5px 5px 9px #00000081;
     color: #52FF00;
+    cursor: pointer;
   }
 }
 </style>

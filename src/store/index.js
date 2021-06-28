@@ -2,21 +2,53 @@ import { createStore } from "vuex";
 
 export default createStore({
 	state: {
-		total: 12500,
-		income: 13000,
-		expense: 500,
+    data: []
 	},
-	mutations: {},
-	actions: {},
+	mutations: {
+    transact(state, val) {
+      state.data.push(val)
+      window.localStorage.setItem('data', JSON.stringify(state.data))
+    },
+    setData(state, value) {
+      state.data = value
+    },
+    remove(state, val) {
+      state.data = state.data.filter(e => e.id === val)
+      window.localStorage.setItem('data', JSON.stringify(state.data))
+    }
+  },
+	actions: {
+    transact({commit}, val) {
+      commit('transact', val)
+    },
+    setData({commit}, val) {
+      commit('setData', val)
+    },
+    remove({commit}, val) {
+      commit('remove', val)
+    },
+  },
   getters: {
     total(state) {
-      return state.total;
+      if (state.data.length === 0) return 0
+      const inc = state.data.filter(e => e.category === 'income').length === 0 ? 0 :
+      state.data.filter(e => e.category === 'income').map(e => e.amount).reduce((acc, curr) => acc + curr);
+      const exp = state.data.filter(e => e.category === 'expense').length === 0 ? 0 :
+      state.data.filter(e => e.category === 'expense').map(e => e.amount).reduce((acc, curr) => acc + curr);
+      return inc - exp;
     },
     income(state) {
-      return state.income;
+      if (state.data.length === 0) return 0
+      return state.data.filter(e => e.category === 'income').length === 0 ? 0 :
+      state.data.filter(e => e.category === 'income').map(e => e.amount).reduce((acc, curr) => acc + curr)
     },
     expense(state) {
-      return state.expense;
+      if (state.data.length === 0) return 0
+      return state.data.filter(e => e.category === 'expense').length === 0 ? 0 :
+      state.data.filter(e => e.category === 'expense').map(e => e.amount).reduce((acc, curr) => acc + curr);
+    },
+    inc: (state) => (opt) => {
+      return state.data.filter(e => e.category === opt)
     },
   },
 	modules: {},
